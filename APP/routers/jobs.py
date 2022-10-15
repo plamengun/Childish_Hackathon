@@ -15,3 +15,11 @@ def create(job_descr: JobAd, token = Header()):
 
     job_ad = job_service.create(user.id, job_descr)
     return job_ad
+
+
+@jobs_router.get('/', tags=[Tags.jobs])
+def view_jobs(city_id: Cities | None = None, sector_id: JobSectors | None = None, type_id: EmplType| None = None, search: str| None = None):
+
+    job_ads = job_service.view_jobs(city_id, sector_id, type_id, search)
+
+    return job_ads

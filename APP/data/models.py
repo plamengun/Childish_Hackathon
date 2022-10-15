@@ -8,6 +8,7 @@ from pydantic import BaseModel, constr
 class Tags(str, Enum):
     home = 'Home Page'
     users = 'Users'
+    housings = 'Housing Posts'
 
 class UserTypes(str, Enum):
     admin = '1'
@@ -132,19 +133,19 @@ class UserResponseModel(BaseModel):
 
 
 class HomeType(str, Enum):
-    rental = 'Rental Housing'
-    resource_housing = 'Resource Housing'
-
+    rental = '1'
+    resource_housing = '2'
 
 class NumberOfRooms(str, Enum):
-    studio = 'Studio Appartment'
-    one_room = '1 Room Appartment'
-    two_rooms = '2 Room Appartment'
-    house_floor = 'House Flooring Rental'
+    studio = '1'
+    one_room = '2'
+    two_rooms = '3'
+    house_floor = '4'
 
 class City(str, Enum):
     plovdiv = '1'
     sofia = '2'
+    burgas = '3'
 
 class Attachment(BaseModel):
     id: int
@@ -152,13 +153,17 @@ class Attachment(BaseModel):
     image: None
 
 
-class HousingPost(BaseModel):
-    id: int | None
-    city_id: int
+class HousingPostRepr(BaseModel):
+    id: int
+    city: str
     rent_price: int
     description: str
-    user_id: str
-    home_type_id: str
-    number_of_rooms_id: str
+    user: str
+    home_type: str
+    number_of_rooms: str
 
     attachments: list[Attachment]
+
+class HousePostBody(BaseModel):
+    rent_price: int
+    description: str

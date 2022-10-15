@@ -40,7 +40,6 @@ class User(BaseModel):
     id: int | None
     username: TUsername
     password = ''
-    role: UserTypes = UserTypes.normal
 
     @classmethod
     def from_query_result(cls, id, username, password):

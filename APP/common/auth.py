@@ -31,7 +31,7 @@ def from_token(token: str) -> User | None:
 def is_authenticated(token: str) -> bool:
     username = decode_username_from_token(token)
     data = read_query(
-        '''SELECT id, username, role FROM users WHERE username =  ?''', (username,))
+        '''SELECT id, username FROM users WHERE username =  ?''', (username,))
 
     return bool(data)
 

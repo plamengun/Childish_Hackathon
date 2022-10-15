@@ -34,6 +34,16 @@ class EmplType(str, Enum):
     parttime = '2'
     internship = '3'
 
+class HomeType(str, Enum):
+    rental = '1'
+    resource_housing = '2'
+
+class NumberOfRooms(str, Enum):
+    studio = '1'
+    one_room = '2'
+    two_rooms = '3'
+    house_floor = '4'
+
 
 # ---------------
 #  Schemas
@@ -166,20 +176,8 @@ class JobCreate(BaseModel):
 
 
 
-class HomeType(str, Enum):
-    rental = '1'
-    resource_housing = '2'
 
-class NumberOfRooms(str, Enum):
-    studio = '1'
-    one_room = '2'
-    two_rooms = '3'
-    house_floor = '4'
 
-class City(str, Enum):
-    plovdiv = '1'
-    sofia = '2'
-    burgas = '3'
 
 
 class Attachment(BaseModel):
@@ -190,15 +188,18 @@ class Attachment(BaseModel):
 
 class HousingPostRepr(BaseModel):
     id: int
-    city: str
-    rent_price: int
+    city_id: int
+    rent_price: int | None
     description: str
-    user: str
-    home_type: str
-    number_of_rooms: str
+    user_id: int
+    home_type_id: int
+    number_of_rooms_id: int
 
     attachments: list[Attachment] | None
 
 class HousePostBody(BaseModel):
-    rent_price: int
+    rent_price: int | None
     description: str
+    city_id: Cities
+    number_of_rooms_id: NumberOfRooms
+    home_type_id: HomeType

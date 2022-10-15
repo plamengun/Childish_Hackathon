@@ -9,6 +9,15 @@ class Tags(str, Enum):
     home = 'Home Page'
     users = 'Users'
 
+class UserTypes(str, Enum):
+    admin = '1'
+    normal = '2'
+    mentor = '3'
+    employer = '4'
+    landlord = '5'
+    other = '6'
+
+
 
 # ---------------
 #  Schemas
@@ -31,6 +40,7 @@ class User(BaseModel):
     id: int | None
     username: TUsername
     password = ''
+    role: UserTypes = UserTypes.normal
 
     @classmethod
     def from_query_result(cls, id, username, password):

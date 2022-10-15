@@ -34,11 +34,15 @@ def try_login(username: str, password: str) -> User | None:
     return user if (user and user.password == _hash_password(password)) else None
 
 
-def create(username: str, password: str) -> User | None:
+def create(username: str, password: str, user_type_id: int) -> User | None:
     try:
         generated_id = database.insert_query(
             'INSERT INTO users(username, password) VALUES (?,?)',
             (username, _hash_password(password))
+        )
+        database.insert_query(
+            'INSERT INTO user_types (user_id, type_id) VALUES (?,?)',
+            (generated_id, user_type_id)
         )
 
         return User(id=generated_id, username=username)

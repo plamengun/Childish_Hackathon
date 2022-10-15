@@ -2,7 +2,7 @@ from mariadb import IntegrityError
 from hashlib import sha256
 
 from data import database
-from data.models import Role, User, HomeType, NumberOfRooms, Attachment, HousePostBody, HousingPostRepr
+from data.models import HousePostBody, HousingPostRepr
 from common.responses import BadRequest, NoContent
 
 
@@ -43,3 +43,22 @@ def create(housing_post: HousePostBody, HomeType: str, NumberOfRooms: str, City:
 #     number_of_rooms_id: int
 
 #     attachments: list[Attachment]
+
+# class HousingPostRepr(BaseModel):
+#     id: int
+#     city: str
+#     rent_price: int
+#     description: str
+#     user: str
+#     home_type: str
+#     number_of_rooms: str
+
+#     attachments: list[Attachment]
+
+def all(search):
+    if search:
+        data = database.read_query('''SELECT id, city, rent_price, description, user, home_type, number_of_rooms WHERE description LIKE ? ORDER BY id''', (f'%{search}%',))
+    else:
+        data = data = database.read_query('''SELECT id, city, rent_price, description, user, home_type, number_of_rooms ORDER BY id''')
+    return [HousingPostRepr(id=id, city=city, rent_price=rent_price, description=description, user=user, home_type=home_type, number_of_rooms=number_of_rooms) for 
+    id, city, rent_price, description, user, home_type, number_of_rooms in data]

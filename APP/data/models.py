@@ -126,12 +126,6 @@ class UserResponseModel(BaseModel):
 
 
 
-
-
-
-
-
-
 class HomeType(str, Enum):
     rental = '1'
     resource_housing = '2'
@@ -146,6 +140,7 @@ class City(str, Enum):
     plovdiv = '1'
     sofia = '2'
     burgas = '3'
+
 
 class Attachment(BaseModel):
     id: int
@@ -162,7 +157,7 @@ class HousingPostRepr(BaseModel):
     home_type: str
     number_of_rooms: str
 
-    attachments: list[Attachment]
+    attachments: list[Attachment] | None
 
 class HousePostBody(BaseModel):
     rent_price: int

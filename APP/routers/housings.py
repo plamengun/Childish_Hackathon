@@ -1,6 +1,6 @@
 from ast import Num
 from fastapi import APIRouter, Header
-
+from data import database
 from common.auth import get_user_or_raise_401, create_token
 from common.responses import BadRequest, Forbidden, NotFound
 from data.models import City, HomeType, HousingPostRepr, NumberOfRooms, Tags, LoginData, Token, User, HousePostBody
@@ -22,3 +22,14 @@ def create_housing_post(data: HousePostBody, HomeType: HomeType, NumberOfRooms:N
     housing_post = housing_service.create(data, HomeType, NumberOfRooms, City)
 
     return housing_post
+
+
+
+
+
+@housing_router.get('/')
+def get_housing_posts(sort:str | None,
+                        search: str | None,
+                        x_token: str | None = Header(default=None)):
+
+    pass

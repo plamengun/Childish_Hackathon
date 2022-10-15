@@ -10,6 +10,8 @@ class Tags(str, Enum):
     users = 'Users'
     jobs = 'Jobs'
     housings = 'Housing Posts'
+    messages = 'Messages'
+    conversations = 'Conversations'
 
 class UserTypes(str, Enum):
     admin = '1'

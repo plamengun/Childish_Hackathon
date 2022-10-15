@@ -76,3 +76,80 @@ class UserResponseModel(BaseModel):
     @classmethod
     def from_query_result(cls, id, username):
         return cls(id=id, username=username)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class HomeType(str, Enum):
+    rental = 'Rental Housing'
+    resource_housing = 'Resource Housing'
+
+
+class NumberOfRooms(str, Enum):
+    studio = 'Studio Appartment'
+    one_room = '1 Room Appartment'
+    two_rooms = '2 Room Appartment'
+    house_floor = 'House Flooring Rental'
+
+class City(str, Enum):
+    plovdiv = '1'
+    sofia = '2'
+
+class Attachment(BaseModel):
+    id: int
+    home_post_id: int
+    image: None
+
+
+class HousingPost(BaseModel):
+    id: int | None
+    city_id: int
+    rent_price: int
+    description: str
+    user_id: str
+    home_type_id: str
+    number_of_rooms_id: str
+
+    attachments: list[Attachment]

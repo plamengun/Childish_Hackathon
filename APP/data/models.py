@@ -114,8 +114,8 @@ class UserResponseModel(BaseModel):
 
 
 class JobAd(BaseModel):
-    id: int
-    user_id: int
+    id: int | None
+    user_id: int | None
     city_id: int
     sector_id: int
     type_id: int
@@ -139,8 +139,6 @@ class JobAdRepr(BaseModel):
             type = type,
             description = description)
 
-class JobCreate(BaseModel):
-    description: str
 
 
 

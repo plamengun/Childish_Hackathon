@@ -1,17 +1,25 @@
 from fastapi import APIRouter, Header
 from common.auth import get_user_or_raise_401
 from common.responses import BadRequest
-from data.models import Tags, JobCreate, JobAdRepr, Cities, JobSectors, EmplType
+from data.models import Tags, JobAd, JobAdRepr, Cities, JobSectors, EmplType
 from services import job_service
 from services import user_service
 
 jobs_router = APIRouter(prefix='/jobs')
 
 @jobs_router.post('/', response_model=JobAdRepr, tags=[Tags.jobs])
-def create(job_descr: JobCreate, city: Cities, sector: JobSectors, type: EmplType, token = Header()):
+def create(job_descr: JobAd, token = Header()):
     user = get_user_or_raise_401(token)
     if user_service.get_user_type(user.id) != 'employer':
         return BadRequest('User is not an employer')
 
-    job_ad = job_service.create(user.id, job_descr, int(city), int(sector), int(type))
+    job_ad = job_service.create(user.id, job_descr)
     return job_ad
+
+
+@jobs_router.get('/', tags=[Tags.jobs])
+def view_jobs(city_id: Cities | None = None, sector_id: JobSectors | None = None, type_id: EmplType| None = None, search: str| None = None):
+
+    job_ads = job_service.view_jobs(city_id, sector_id, type_id, search)
+
+    return job_ads

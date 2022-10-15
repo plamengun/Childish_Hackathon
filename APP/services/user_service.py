@@ -28,6 +28,14 @@ def find_by_id(user_id: int) -> User | None:
     return next((User.from_query_result(*row) for row in data), None)
 
 
+def get_user_type(user_id: int):
+    type = database.read_query_one('''
+        SELECT t.name FROM types t
+        JOIN user_types u ON t.id = u.type_id
+        WHERE u.user_id = ?''', (user_id,))
+    return type[0]
+
+
 def try_login(username: str, password: str) -> User | None:
     user = find_by_username(username)
 

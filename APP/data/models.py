@@ -8,6 +8,7 @@ from pydantic import BaseModel, constr
 class Tags(str, Enum):
     home = 'Home Page'
     users = 'Users'
+    jobs = 'Jobs'
 
 class UserTypes(str, Enum):
     admin = '1'
@@ -17,6 +18,20 @@ class UserTypes(str, Enum):
     landlord = '5'
     other = '6'
 
+class Cities(str, Enum):
+    sofia = '1'
+    plovdiv = '2'
+    varna = '3'
+    burgas = '4'
+
+class JobSectors(str, Enum):
+    trade = '1'
+    uncategorised = '2'
+
+class EmplType(str, Enum):
+    fulltime = '1'
+    parttime = '2'
+    internship = '3'
 
 
 # ---------------
@@ -87,9 +102,34 @@ class UserResponseModel(BaseModel):
         return cls(id=id, username=username)
 
 
+class JobAd(BaseModel):
+    id: int
+    user_id: int
+    city_id: int
+    sector_id: int
+    type_id: int
+    description: str
 
+class JobAdRepr(BaseModel):
+    id: int
+    user: UserResponseModel
+    city: str
+    sector: str
+    type: str
+    description: str
 
+    @classmethod
+    def from_query_result(cls, id, user_id, username, city, sector, type, description):
+        return cls(
+            id = id,
+            user = UserResponseModel(id=user_id, username=username),
+            city = city,
+            sector = sector,
+            type = type,
+            description = description)
 
+class JobCreate(BaseModel):
+    description: str
 
 
 

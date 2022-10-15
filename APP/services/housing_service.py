@@ -2,17 +2,34 @@ from mariadb import IntegrityError
 from hashlib import sha256
 
 from data import database
-from data.models import Role, User, HomeType, HousingPost, NumberOfRooms, Attachment
+from data.models import Role, User, HomeType, NumberOfRooms, Attachment, HousePostBody, HousingPostRepr
 from common.responses import BadRequest, NoContent
 
 
-def create(housing_post: HousingPost):
+def create(housing_post: HousePostBody, HomeType: str, NumberOfRooms: str, City: str):
+
+    database_data = database.read_query('''SELECT * from home_type where type_name = ?
+                                          UNION SELECT id from number_of_rooms where rooms = ?
+                                          UNION SELECT id from cities where name =?''', (HomeType, NumberOfRooms, City))
+
+    HomeTypeID, NumberOfRoomsID, CityID = database_data
+
     generated_id = database.insert_query('INSERT INTO home_posts(city_id, rent_price, description, user_id, home_type_id, number_of_rooms_id) VALUES(?,?,?,?,?,?)',
-    (housing_post.city_id, housing_post.rent_price, housing_post.description, housing_post.user_id, housing_post.home_type_id, housing_post.number_of_rooms_id))
+    (CityID[0], housing_post.rent_price, housing_post.description, 17, HomeTypeID[0], NumberOfRoomsID[0]))
+
 
     housing_post.id = generated_id
 
-    return housing_post
+    return HousingPostRepr(
+        id=generated_id,
+        city=City,
+        rent_price = housing_post.rent_price,
+        description=housing_post.description,
+        user='17',
+        home_type=HomeType,
+        number_of_rooms=NumberOfRooms,
+        attachments=[]
+    )
 
 
 

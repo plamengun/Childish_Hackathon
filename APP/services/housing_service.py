@@ -26,10 +26,22 @@ def create_housing_repr(id: int):
     return HousingPostRepr.from_query_result(*data)
 
 
-def all(search):
-    if search:
-        data = database.read_query('''SELECT id, city, r
-        ent_price, description, user, home_type, number_of_rooms WHERE description LIKE ? ORDER BY id''', (f'%{search}%',))
-    else:
-        data = database.read_query('''SELECT id, city, rent_price, description, user, home_type, number_of_rooms ORDER BY id''')
-    return HousingPostRepr.from_query_result(*data)
+# def all(city_id: str| None, home_type_id: str|None, number_of_rooms_id: str| None, search: str | None):
+#     if search:
+#         data = database.read_query('''SELECT h.id, c.name, h.rent_price, h.description, u.id, u.username, ht.type_name, r.rooms
+#         FROM home_posts h
+#         JOIN users u ON h.user_id = u.id
+#         JOIN cities c ON h.city_id = c.id
+#         JOIN home_type ht ON h.home_type_id = ht.id
+#         JOIN number_of_rooms r ON h.number_of_rooms_id = r.id
+#         WHERE j.city_id = ? AND j.job_sectors_id = ? AND j.employment_type_id = ? AND h.description LIKE ?
+#         ORDER BY h.id''', (f'%{search}%',))
+#     else:
+#         data = database.read_query('''SELECT h.id, c.name, h.rent_price, h.description, u.id, u.username, ht.type_name, r.rooms
+#         FROM home_posts h
+#         JOIN users u ON h.user_id = u.id
+#         JOIN cities c ON h.city_id = c.id
+#         JOIN home_type ht ON h.home_type_id = ht.id
+#         JOIN number_of_rooms r ON h.number_of_rooms_id = r.id
+#         ORDER BY h.id''')
+#     return [HousingPostRepr.from_query_result(*row) for row in data]

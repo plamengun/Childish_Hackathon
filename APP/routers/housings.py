@@ -1,28 +1,24 @@
-from ast import Num
 from fastapi import APIRouter, Header
-from data import database
 from common.auth import get_user_or_raise_401, create_token
 from common.responses import BadRequest, Forbidden, NotFound
-from data.models import Cities, HomeType, HousingPostRepr, NumberOfRooms, Tags, LoginData, Token, User, HousePostBody
+from data.models import HousingPostRepr, Tags, HousePostBody
 from services import housing_service
+from services import user_service
 
 
 housing_router = APIRouter(prefix='/housings')
 
 
-# @users_router.post('/register', response_model=User, tags=[Tags.users])
-# def register(data: LoginData):
-#     user = user_service.create(data.username, data.password)
-
-#     return user or BadRequest(f'Username {data.username} is taken')
-
 
 @housing_router.post('/', response_model=HousingPostRepr, tags=[Tags.housings])
-def create_housing_post(data: HousePostBody):
+def create_housing_post(data: HousePostBody, token = Header()):
+    
+    user = get_user_or_raise_401(token)
+    if user_service.get_user_type(user.id) != 'landlord':
+        return BadRequest('User is not an landlord')
+    data.user_id = user.id
     housing_post = housing_service.create(data)
-
     return housing_post
-
 
 
 

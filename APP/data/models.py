@@ -75,6 +75,53 @@ class User(BaseModel):
             password=password)
 
 
+class CompanyInfoBody(BaseModel):
+    id: int | None = None
+    name: str
+    reg_number: str
+    address: str
+    phone: str
+    website: str | None = None
+    city_id : int | None = None
+    company_type_id: int
+    job_sector_id: int
+
+
+class UserAttributesBody(BaseModel):
+    city_id: Cities | None = None
+    email: str | None = None
+    phone_number: str | None = None
+    firstname: str | None = None
+    lastname: str | None = None
+    company_info_id: int | None = None
+
+
+class UserUpdated(BaseModel):
+    id: int | None = None
+    username: TUsername
+    password: str = ''
+    city_id: int | None = None
+    email: str | None = None
+    phone_number: str | None = None
+    firstname: str | None = None
+    lastname: str | None = None
+    company_info_id: int | None = None
+
+    @classmethod
+    def from_query_result(cls, id, username, city_id, email, phone_number, firstname, lastname, company_info_id, password=''):
+        return cls(
+            id=id,
+            username=username,
+            password=password,
+            city_id=city_id,
+            email=email,
+            phone_number=phone_number,
+            first_name=firstname,
+            lastname=lastname,
+            company_info_id=company_info_id
+            )
+
+
 class LoginData(BaseModel):
     username: TUsername
     password: TPassword

@@ -11,9 +11,9 @@ class NotFound(Response):
         super().__init__(status_code=404, content=content)
 
 # we have HTTPException with status code=401
-# class Unauthorized(Response):
-#     def __init__(self, content=''):
-#         super().__init__(status_code=401, content=content)
+class Unauthorized(Response):
+    def __init__(self, content=''):
+        super().__init__(status_code=401, content=content)
 
 
 class NoContent(Response):

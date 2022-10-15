@@ -16,7 +16,7 @@ def create(housing_post: HousePostBody):
 
 def create_housing_repr(id: int):
     data = database.read_query_one('''
-        SELECT h.id, c.name, h.rent_price, h.description, u.username, ht.type_name, r.rooms, attachments
+        SELECT h.id, c.name, h.rent_price, h.description, u.id, u.username, ht.type_name, r.rooms
         FROM home_posts h
         JOIN users u ON h.user_id = u.id
         JOIN cities c ON h.city_id = c.id

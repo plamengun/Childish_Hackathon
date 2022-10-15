@@ -193,10 +193,10 @@ class HousingPostRepr(BaseModel):
     home_type: str
     number_of_rooms: str
 
-    attachments: list[Attachment] | None
+    # attachments: list[Attachment] | None
 
     @classmethod
-    def from_query_result(cls, id, city, rent_price, description, user_id, username, home_type, number_of_rooms, attachments):
+    def from_query_result(cls, id, city, rent_price, description, user_id, username, home_type, number_of_rooms):
         return cls(
             id = id,
             city=city,
@@ -204,14 +204,13 @@ class HousingPostRepr(BaseModel):
             description=description,
             user = UserResponseModel(id=user_id, username=username),
             home_type=home_type,
-            number_of_rooms=number_of_rooms,
-            attachments=attachments)
+            number_of_rooms=number_of_rooms)
 
 class HousePostBody(BaseModel):
     city_id: Cities
     rent_price: int | None
     description: str
-    user_id: int
+    user_id: int | None
     home_type_id: HomeType
     number_of_rooms_id: NumberOfRooms
     

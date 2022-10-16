@@ -6,7 +6,7 @@ from data.models import Tags, MessageResponseModelShort, UserResponseModel
 from services import conversation_service
 
 
-conversations_router = APIRouter(prefix='/conversations')
+conversations_router = APIRouter(prefix='/v1/conversations')
 
 
 @conversations_router.get('/', response_model=list[UserResponseModel], tags=[Tags.conversations])

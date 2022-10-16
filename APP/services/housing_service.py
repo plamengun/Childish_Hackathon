@@ -26,6 +26,14 @@ def create_housing_repr(id: int):
     return HousingPostRepr.from_query_result(*data)
 
 
+def update_housing_post(housing_post_id: int, payload: HousePostBody):
+    database.update_query('''
+        UPDATE home_post SET city_id = ?, rent_price = ?, description = ?, home_type_id = ?, number_of_rooms_id = ? 
+        WHERE id = ?''', (payload.city_id, payload.rent_price, payload.description, payload.home_type_id, payload.number_of_rooms_id))
+    
+    return create_housing_repr(id=housing_post_id)
+
+
 # def all(city_id: str| None, home_type_id: str|None, number_of_rooms_id: str| None, search: str | None):
 #     if search:
 #         data = database.read_query('''SELECT h.id, c.name, h.rent_price, h.description, u.id, u.username, ht.type_name, r.rooms
@@ -45,3 +53,18 @@ def create_housing_repr(id: int):
 #         JOIN number_of_rooms r ON h.number_of_rooms_id = r.id
 #         ORDER BY h.id''')
 #     return [HousingPostRepr.from_query_result(*row) for row in data]
+
+
+def all(city_id: str| None, home_type_id: str|None, number_of_rooms_id: str| None, search: str | None, limit: int, offset: int):
+    if search:
+        data = database.read_query('''
+            SELECT id, city_id, rent_price, description, user_id, home_type_id, number_of_rooms_id
+            FROM home_posts
+            WHERE description LIKE ?
+            LIMIT ? OFFSET ?''', (f'%{search}%', limit, offset))
+    else:
+        data = database.read_query('''
+            SELECT id, city_id, rent_price, description, user_id, home_type_id, number_of_rooms_id
+            FROM home_posts
+            LIMIT ? OFFSET ?''', (limit, offset))
+    return [HousingPostRepr.from_query_result(*row) for row in data]

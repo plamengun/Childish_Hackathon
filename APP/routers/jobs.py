@@ -5,10 +5,10 @@ from data.models import Tags, JobAd, JobAdRepr, Cities, JobSectors, EmplType
 from services import job_service
 from services import user_service
 
-jobs_router = APIRouter(prefix='/jobs')
+jobs_router = APIRouter(prefix='/v1/jobs')
 
 @jobs_router.post('/', response_model=JobAdRepr, tags=[Tags.jobs])
-def create(job_descr: JobAd, token = Header()):
+def create_job(job_descr: JobAd, token = Header()):
     user = get_user_or_raise_401(token)
     if user_service.get_user_type(user.id) != 'employer':
         return BadRequest('User is not an employer')
@@ -26,7 +26,7 @@ def view_jobs(city_id: Cities | None = None, sector_id: JobSectors | None = None
 
 
 @jobs_router.put('/{id}', response_model=JobAdRepr, tags=[Tags.jobs])
-def update(id: int, job_descr: JobAd, token = Header()):
+def update_job(id: int, job_descr: JobAd, token = Header()):
     user = get_user_or_raise_401(token)
     if user_service.get_user_type(user.id) != 'employer':
         return BadRequest('User is not an employer')

@@ -6,7 +6,7 @@ from data.models import Tags, Message, MessageResponseModel
 from services import message_service
 
 
-messages_router = APIRouter(prefix='/messages')
+messages_router = APIRouter(prefix='/v1/messages')
 
 
 @messages_router.post('/', response_model=MessageResponseModel, tags=[Tags.messages])

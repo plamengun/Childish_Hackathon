@@ -14,3 +14,12 @@ app.include_router(jobs_router)
 app.include_router(housing_router)
 app.include_router(messages_router)
 app.include_router(conversations_router)
+
+
+## run the server with 'uvicorn main:app'
+
+## documentation on: 
+# http://127.0.0.1:8000/docs
+# http://127.0.0.1:8000/redoc
+
+# Download OpenAPI specification: http://127.0.0.1:8000/openapi.json

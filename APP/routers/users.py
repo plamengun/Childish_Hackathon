@@ -6,7 +6,7 @@ from data.models import CompanyInfoBody, Tags, LoginData, Token, User, UserAttri
 from services import user_service
 
 
-users_router = APIRouter(prefix='/users')
+users_router = APIRouter(prefix='/v1/users')
 
 
 @users_router.get('/info', response_model=UserResponseModel, tags=[Tags.users])

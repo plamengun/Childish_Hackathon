@@ -12,6 +12,7 @@ class Tags(str, Enum):
     housings = 'Housing Posts'
     messages = 'Messages'
     conversations = 'Conversations'
+    qa = 'Q&A'
 
 class UserTypes(str, Enum):
     admin = '1'
@@ -189,44 +190,6 @@ class JobAdRepr(BaseModel):
             description = description)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class Attachment(BaseModel):
     id: int
     home_post_id: int
@@ -263,3 +226,30 @@ class HousePostBody(BaseModel):
     home_type_id: HomeType
     number_of_rooms_id: NumberOfRooms
     
+
+class QAsubject(BaseModel):
+    id: int
+    subject: str
+
+    @classmethod
+    def from_query_result(cls, id, subject):
+        return cls(id=id, subject=subject)
+
+
+class QA(BaseModel):
+    id: int
+    author: str
+    question: str
+    answer: str
+    qa_subject: str
+
+    @classmethod
+    def from_query_result(cls, id, username, question, answer, subject):
+        return cls(id=id, author=username, question=question,
+                answer=answer, qa_subject=subject)
+
+
+class QABody(BaseModel):
+    question: str
+    answer: str
+    qa_subject_id: int
